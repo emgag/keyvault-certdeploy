@@ -36,7 +36,7 @@ func (c *Certificate) PublicKeyAlgorithm() string {
 	return c.Leaf.PublicKeyAlgorithm.String()
 }
 
-// PublicKeyAlgorithm returns the sha256 fingerprint of the leaf certificate
+// Fingerprint returns the sha256 fingerprint of the leaf certificate
 func (c *Certificate) Fingerprint() string {
 	return fmt.Sprintf("%x", sha256.Sum256(c.Leaf.Raw))
 }

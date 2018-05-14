@@ -13,11 +13,15 @@ import (
 )
 
 const (
-	MIME_TYPE_PEM   = "application/x-pem-file"
-	TAG_FINGERPRINT = "fingerprint"
-	TAG_KEYALGO     = "keyalgo"
-	TAG_NOTAFTER    = "notafter"
-	TAG_SUBJECT     = "subject"
+	mimeTypePEM = "application/x-pem-file"
+	// TagFingerprint is the key for the fingerprint meta data in a vault object
+	TagFingerprint = "fingerprint"
+	// TagKeyAlgo is the key for the PublicKeyAlgorithm meta data in a vault object
+	TagKeyAlgo = "keyalgo"
+	// TagNotAfter is the key for the expiry date meta data in a vault object
+	TagNotAfter = "notafter"
+	// TagSubjectCN is the key for the certificate subject common name meta data in a vault object
+	TagSubjectCN = "subjectcn"
 )
 
 // NewClient creates a new key vault client
@@ -52,12 +56,12 @@ func PushCertificate(cert *cert.Certificate) error {
 
 	ssp := keyvault.SecretSetParameters{
 		Tags: map[string]*string{
-			TAG_FINGERPRINT: to.StringPtr(cert.Fingerprint()),
-			TAG_KEYALGO:     to.StringPtr(cert.PublicKeyAlgorithm()),
-			TAG_NOTAFTER:    to.StringPtr(fmt.Sprintf("%d", cert.NotAfter().Unix())),
-			TAG_SUBJECT:     to.StringPtr(cert.SubjectCN()),
+			TagFingerprint: to.StringPtr(cert.Fingerprint()),
+			TagKeyAlgo:     to.StringPtr(cert.PublicKeyAlgorithm()),
+			TagNotAfter:    to.StringPtr(fmt.Sprintf("%d", cert.NotAfter().Unix())),
+			TagSubjectCN:   to.StringPtr(cert.SubjectCN()),
 		},
-		ContentType: to.StringPtr(MIME_TYPE_PEM),
+		ContentType: to.StringPtr(mimeTypePEM),
 		Value:       to.StringPtr(cert.String()),
 	}
 

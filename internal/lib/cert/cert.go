@@ -41,6 +41,7 @@ func (c *Certificate) Fingerprint() string {
 	return fmt.Sprintf("%x", sha256.Sum256(c.Leaf.Raw))
 }
 
+// LeafPEM returns the raw leaf cert as a pem encoded byte slice
 func (c *Certificate) LeafPEM() []byte {
 	b := pem.Block{Type: "CERTIFICATE", Bytes: c.Leaf.Raw}
 	return pem.EncodeToMemory(&b)

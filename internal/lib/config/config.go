@@ -1,5 +1,6 @@
 package config
 
+// CertList maps the certificate list in config to a struct
 type CertList struct {
 	SubjectCN string   `mapstructure:"cn"`
 	KeyAlgo   string   `mapstructure:"keyalgo"`

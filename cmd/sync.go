@@ -69,7 +69,7 @@ var syncCmd = &cobra.Command{
 		}
 
 		if skip, _ := cmd.Flags().GetBool("nohooks"); !skip {
-			for h, _ := range hooks {
+			for h := range hooks {
 				c := strings.Split(h, " ")
 				command := exec.Command(c[0], c[1:]...)
 

@@ -41,6 +41,11 @@ func (c *Certificate) Fingerprint() string {
 	return fmt.Sprintf("%x", sha256.Sum256(c.Leaf.Raw))
 }
 
+func (c *Certificate) LeafPEM() []byte {
+	b := pem.Block{Type: "CERTIFICATE", Bytes: c.Leaf.Raw}
+	return pem.EncodeToMemory(&b)
+}
+
 // String returns to private key concatenated with the whole certificate chain as a PEM-encoded string
 func (c *Certificate) String() string {
 	sb := strings.Builder{}

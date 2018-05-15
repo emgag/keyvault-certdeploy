@@ -1,0 +1,23 @@
+keyvault:
+  name: VAULTNAME
+  url: https://VAULTNAME.vault.azure.net/
+certs:
+  - cn: example.org
+    keyalgo: rsa
+    privkey: /etc/ssl/private/example.org.rsa.key
+    cert: /etc/ssl/certs/example.org.rsa.crt.pem
+    fullchain: /etc/ssl/certs/example.org.rsa.chain.pem
+    hooks:
+      - nginx -s reload
+      - killall -HUP haproxy
+  - cn: example.net
+    keyalgo: ecdsa
+    privkey: /etc/ssl/private/example.net.rsa.key
+    cert: /etc/ssl/certs/example.net.rsa.crt.pem
+    fullchain: /etc/ssl/certs/example.net.rsa.chain.pem
+    hooks:
+      - nginx -s reload
+
+
+
+

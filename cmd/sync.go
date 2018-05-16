@@ -39,7 +39,7 @@ var syncCmd = &cobra.Command{
 		err := viper.UnmarshalKey("certs", &certs)
 
 		if err != nil {
-			log.Fatalf("Error loading config: ", err)
+			log.Fatalf("Error loading config: %s", err)
 		}
 
 		hooks := make(map[string]bool)

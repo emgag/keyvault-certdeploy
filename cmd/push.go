@@ -32,7 +32,7 @@ var pushCmd = &cobra.Command{
 		} else {
 			log.Noticef(
 				"Successfully pushed %s certificate %s (%v, %s) to the vault",
-				c.Leaf.PublicKeyAlgorithm,
+				c.PublicKeyAlgorithm(),
 				c.SubjectCN(),
 				c.NotAfter(),
 				c.Fingerprint(),

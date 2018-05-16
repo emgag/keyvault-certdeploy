@@ -12,23 +12,39 @@
 
 To support importing ECC keys and ECDSA certificates, it does not use Key Vault's internal mechanism for key and certificate management and stores key and certificate in a single PEM-encoded secret. Thus, it cannot be used with HSM-backed keys or Key Vault's automatic certificate renewal.
 
+## Authentication
+
+keyvault-certdeploy uses the [automatic environment authentication from the Azure Golang SDK](https://docs.microsoft.com/en-us/go/azure/azure-sdk-go-authorization#use-environment-based-authentication) to authenticate itself to Key Vault. Credentials can be either provided through environment variables or, if running in a Azure VM, through [Managed Service Identity (MSI)](https://docs.microsoft.com/en-us/azure/active-directory/managed-service-identity/overview). No environment variables need to be set when using MSI.
+
+Required access policies to vault:
+* To push certificates: Secret Get & Set
+* To fetch (dump & sync) certificates: Secret Get
+
+
 ## Configuration
 
-TBD
+See [keyvault-certdeploy.yml.dist](keyvault-certdeploy.yml.dist)
 
 ## Usage
 
-### Push certificate to vault
+```
+X.509-Certificate deployment helper for Azure Key Vault
 
-TBD
+Usage:
+  keyvault-certdeploy [command]
 
-### Dump certificate from vault
+Available Commands:
+  dump        Dump certificate and key from vault to current directory or dir, if supplied
+  help        Help about any command
+  push        Push a certificate to the vault
+  sync        Sync configured certificates from vault to system
 
-TBD
-
-### Fetch/Refresh certificates from vault
-
-TBD
+Flags:
+  -c, --config string   Config file (default locations are $HOME/.config/keyvault-certdeploy.yml, /etc/keyvault-certdeploy.yml, $PWD/keyvault-certdeploy.yml)
+  -h, --help            help for keyvault-certdeploy
+  -q, --quiet           Be quiet
+  -v, --verbose         Be more verbose
+```
 
 ## Build
 

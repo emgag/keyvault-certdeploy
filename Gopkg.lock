@@ -44,6 +44,27 @@
   version = "v1.4.7"
 
 [[projects]]
+  name = "github.com/go-playground/ansi"
+  packages = ["."]
+  revision = "777788a9be1a7296979a999c86b251fc777077a9"
+  version = "v2.1.0"
+
+[[projects]]
+  name = "github.com/go-playground/errors"
+  packages = ["."]
+  revision = "14d2d30656a95a5fa5a17d2e33540269eda5f158"
+  version = "v3.2.1"
+
+[[projects]]
+  name = "github.com/go-playground/log"
+  packages = [
+    ".",
+    "handlers/console"
+  ]
+  revision = "523ec8ae7a9129069d96fe92594615d8f41ad6bf"
+  version = "v6.1.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/hashicorp/hcl"
   packages = [
@@ -166,6 +187,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "554aee3280f7f1fa7ab46d0c88c70a605b3ddca3d43e4d723ed5320fe95965f5"
+  inputs-digest = "460844bc6fbb8cdb52a36cd1d4b3fef23666cdd9ee3af199689833d083163394"
   solver-name = "gps-cdcl"
   solver-version = 1

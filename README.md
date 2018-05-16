@@ -1,12 +1,16 @@
 # keyvault-certdeploy
 
-**WORK IN PROGRESS**
+[![Build Status](https://travis-ci.org/emgag/keyvault-certdeploy.svg?branch=master)](https://travis-ci.org/emgag/keyvault-certdeploy)
+[![Go Report Card](https://goreportcard.com/badge/github.com/emgag/keyvault-certdeploy)](https://goreportcard.com/report/github.com/emgag/keyvault-certdeploy)
+
+**WORK IN PROGRESS**: more or less feature complete, but not used in production yet.
 
 **keyvault-certdeploy** is a helper tool used to facilitate X.509 certificate deployment to Linux VMs with [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/). Unlike the built-in method via VM secrets, it does support RSA and ECDSA certificates, local deployment and update hooks. It can be used to push certificates to Key Vault from a Let's Encrypt deployment hook and to refresh VM certificates on boot or to periodically poll for updates via cronjob. 
 
 ## Requirements
 
-* [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault) vault and an account with write permissions to vault secrets (for uploading new certs) and a read-only secret permissions for fetching certs.  
+* [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault) vault and an account with write permissions to vault secrets (for uploading new certs) and a read-only secret permissions for fetching certs. 
+* Go >=1.10 for building.  
 
 ## Limitations
 
@@ -23,7 +27,9 @@ Required access policies to vault:
 
 ## Configuration
 
-See [keyvault-certdeploy.yml.dist](keyvault-certdeploy.yml.dist)
+See [keyvault-certdeploy.yml.dist](keyvault-certdeploy.yml.dist) for a sample configuration. 
+
+
 
 ## Usage
 
@@ -58,13 +64,13 @@ $ cd src/github.com/emgag/keyvault-certdeploy
 $ make install
 ```
 
-will download the source and builds binary called _keyvault-certdeploy_ in $GOPATH/bin.
+will download the source and build binary called _keyvault-certdeploy_ in $GOPATH/bin.
 
 ## Bundled libraries
 
 * [Cobra](https://github.com/spf13/cobra) command line processing 
 * [go-homedir](https://github.com/mitchellh/go-homedir) home directory expansion 
-* [go-playground/log](https://github.com/go-playground/log)  
+* [go-playground/log](https://github.com/go-playground/log) enhanced logging
 * [Microsoft Azure SDK for Go](https://github.com/Azure/azure-sdk-for-go)
 * [Viper](https://github.com/spf13/viper) configuration library
 

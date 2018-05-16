@@ -17,6 +17,7 @@ import (
 type Certificate struct {
 	Certificate *tls.Certificate
 	Leaf        *x509.Certificate
+	Chain       []*x509.Certificate
 	RawKey      []byte
 	RawCert     []byte
 }
@@ -45,6 +46,18 @@ func (c *Certificate) Fingerprint() string {
 func (c *Certificate) LeafPEM() []byte {
 	b := pem.Block{Type: "CERTIFICATE", Bytes: c.Leaf.Raw}
 	return pem.EncodeToMemory(&b)
+}
+
+// ChainPEM returns the raw certificate chain certificates as a pem encoded byte slice
+func (c *Certificate) ChainPEM() []byte {
+	buf := new(bytes.Buffer)
+
+	for _, cc := range c.Chain {
+		b := pem.Block{Type: "CERTIFICATE", Bytes: cc.Raw}
+		buf.Write(pem.EncodeToMemory(&b))
+	}
+
+	return buf.Bytes()
 }
 
 // String returns to private key concatenated with the whole certificate chain as a PEM-encoded string
@@ -81,13 +94,17 @@ func Load(key []byte, cert []byte) (*Certificate, error) {
 	}
 
 	var leaf *x509.Certificate
+	var chain []*x509.Certificate
 
 	for _, c := range certs.Certificate {
 		c, err := x509.ParseCertificate(c)
 
-		if err == nil && !c.IsCA {
-			leaf = c
-			break
+		if err == nil {
+			if c.IsCA {
+				chain = append(chain, c)
+			} else {
+				leaf = c
+			}
 		}
 	}
 
@@ -98,6 +115,7 @@ func Load(key []byte, cert []byte) (*Certificate, error) {
 	return &Certificate{
 		Certificate: &certs,
 		Leaf:        leaf,
+		Chain:       chain,
 		RawKey:      key,
 		RawCert:     cert,
 	}, nil

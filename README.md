@@ -2,7 +2,7 @@
 
 **WORK IN PROGRESS**
 
-**keyvault-certdeploy** is a helper tool used to facilitate x509 certificate deployment to Linux VMs with [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/). Unlike the built-in method via VM secrets, it does support RSA and ECDSA certificates, local deployment and update hooks. It can be used to push certificates to Key Vault from a Let's Encrypt deployment hook and to refresh VM certificates on boot or to periodically poll for updates via cronjob. 
+**keyvault-certdeploy** is a helper tool used to facilitate X.509 certificate deployment to Linux VMs with [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/). Unlike the built-in method via VM secrets, it does support RSA and ECDSA certificates, local deployment and update hooks. It can be used to push certificates to Key Vault from a Let's Encrypt deployment hook and to refresh VM certificates on boot or to periodically poll for updates via cronjob. 
 
 ## Requirements
 
@@ -47,9 +47,10 @@ will download the source and builds binary called _keyvault-certdeploy_ in $GOPA
 ## Bundled libraries
 
 * [Cobra](https://github.com/spf13/cobra) command line processing 
-* [Viper](https://github.com/spf13/viper) configuration library
 * [go-homedir](https://github.com/mitchellh/go-homedir) home directory expansion 
+* [go-playground/log](https://github.com/go-playground/log)  
 * [Microsoft Azure SDK for Go](https://github.com/Azure/azure-sdk-for-go)
+* [Viper](https://github.com/spf13/viper) configuration library
 
 ## License
 

@@ -6,7 +6,8 @@ certs:
     keyalgo: rsa
     privkey: /etc/ssl/private/example.org.rsa.key
     cert: /etc/ssl/certs/example.org.rsa.crt.pem
-    fullchain: /etc/ssl/certs/example.org.rsa.chain.pem
+    chain: /etc/ssl/certs/example.org.rsa.chain.pem
+    fullchain: /etc/ssl/certs/example.org.rsa.fullchain.pem
     hooks:
       - nginx -s reload
       - killall -HUP haproxy
@@ -14,7 +15,8 @@ certs:
     keyalgo: ecdsa
     privkey: /etc/ssl/private/example.net.rsa.key
     cert: /etc/ssl/certs/example.net.rsa.crt.pem
-    fullchain: /etc/ssl/certs/example.net.rsa.chain.pem
+    chain: /etc/ssl/certs/example.net.rsa.chain.pem
+    fullchain: /etc/ssl/certs/example.net.rsa.fullchain.pem
     hooks:
       - nginx -s reload
 

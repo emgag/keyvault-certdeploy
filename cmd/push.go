@@ -1,11 +1,10 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/emgag/keyvault-certdeploy/internal/lib/cert"
 	"github.com/emgag/keyvault-certdeploy/internal/lib/vault"
+	"github.com/go-playground/log"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 func init() {
@@ -23,22 +22,21 @@ var pushCmd = &cobra.Command{
 		c, err := cert.LoadFromDisk(keyFile, certFile)
 
 		if err != nil {
-			fmt.Printf("%v\n", err)
-			os.Exit(1)
+			log.Fatalf("Error loading cert: %s", err)
 		}
 
 		err = vault.PushCertificate(c)
 
 		if err != nil {
-			fmt.Printf("%v\n", err)
-			os.Exit(1)
+			log.Errorf("Error pushing cert: %s", err)
+		} else {
+			log.Noticef(
+				"Sucessfully pushed %s certificate %s (%v, %s) to the vault",
+				c.Leaf.PublicKeyAlgorithm,
+				c.SubjectCN(),
+				c.NotAfter(),
+				c.Fingerprint(),
+			)
 		}
-
-		fmt.Printf(
-			"Sucessfully pushed certificate %s (%v, %s) to the vault\n",
-			c.SubjectCN(),
-			c.NotAfter(),
-			c.Fingerprint(),
-		)
 	},
 }

@@ -6,6 +6,7 @@ type CertList struct {
 	KeyAlgo   string   `mapstructure:"keyalgo"`
 	PrivKey   string   `mapstructure:"privkey"`
 	Cert      string   `mapstructure:"cert"`
+	Chain     string   `mapstructure:"chain"`
 	FullChain string   `mapstructure:"fullchain"`
 	Hooks     []string `mapstructure:"hooks"`
 }

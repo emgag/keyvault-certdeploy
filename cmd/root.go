@@ -25,19 +25,21 @@ var rootCmd = &cobra.Command{
 			return errors.New("quiet and verbose are mutually exclusive")
 		}
 
+		if viper.GetString("keyvault.name") == "" || viper.GetString("keyvault.url") == "" {
+			return errors.New("Invalid config: at least keyvault.name and keyvault.url need to be set.")
+		}
+
 		return nil
 	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		log.Fatal(err)
-	}
+	rootCmd.Execute()
 }
 
 func init() {
-	cobra.OnInitialize(initConfig, initLogger)
+	cobra.OnInitialize(initLogger, initConfig)
 
 	rootCmd.PersistentFlags().StringVarP(
 		&cfgFile,
@@ -84,15 +86,12 @@ func initLogger() {
 func initConfig() {
 	viper.SetConfigName("keyvault-certdeploy")
 
-	// set defaults
-	//viper.SetDefault("xxx", "xxx")
-
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
 	} else {
 		home, err := homedir.Dir()
 
-		if err != nil {
+		if err == nil {
 			viper.AddConfigPath(path.Join(home, ".config"))
 		}
 
@@ -100,13 +99,9 @@ func initConfig() {
 		viper.AddConfigPath(".")
 	}
 
-	viper.SetEnvPrefix("kvcd")
-	viper.AutomaticEnv()
-
-	// if a config file is found, read it in.
 	err := viper.ReadInConfig()
 
 	if err != nil {
-		log.Fatal("Could not open config file.")
+		log.Alertf("Could not open config file: %s", err)
 	}
 }

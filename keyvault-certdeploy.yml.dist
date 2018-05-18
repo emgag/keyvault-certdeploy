@@ -13,10 +13,10 @@ certs:
       - killall -HUP haproxy
   - cn: example.net
     keyalgo: ecdsa
-    privkey: /etc/ssl/private/example.net.rsa.key
-    cert: /etc/ssl/certs/example.net.rsa.crt.pem
-    chain: /etc/ssl/certs/example.net.rsa.chain.pem
-    fullchain: /etc/ssl/certs/example.net.rsa.fullchain.pem
+    privkey: /etc/ssl/private/example.net.ecdsa.key
+    cert: /etc/ssl/certs/example.net.ecdsa.crt.pem
+    chain: /etc/ssl/certs/example.net.ecdsa.chain.pem
+    fullchain: /etc/ssl/certs/example.net.ecdsa.fullchain.pem
     hooks:
       - nginx -s reload
 

@@ -43,7 +43,7 @@ Available Commands:
   sync        Sync configured certificates from vault to system
 
 Flags:
-  -c, --config string   Config file (default locations are $HOME/.config/keyvault-certdeploy.yml, /etc/keyvault-certdeploy.yml, $PWD/keyvault-certdeploy.yml)
+  -c, --config string   Config file (default locations are $HOME/.config/keyvault-certdeploy.yml, /etc/keyvault-certdeploy/keyvault-certdeploy.yml, $PWD/keyvault-certdeploy.yml)
   -h, --help            help for keyvault-certdeploy
   -q, --quiet           Be quiet
   -v, --verbose         Be more verbose

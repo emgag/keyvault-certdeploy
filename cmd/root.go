@@ -46,7 +46,7 @@ func init() {
 		"config",
 		"c",
 		"",
-		"Config file (default locations are $HOME/.config/keyvault-certdeploy.yml, /etc/keyvault-certdeploy.yml, $PWD/keyvault-certdeploy.yml)",
+		"Config file (default locations are $HOME/.config/keyvault-certdeploy.yml, /etc/keyvault-certdeploy/keyvault-certdeploy.yml, $PWD/keyvault-certdeploy.yml)",
 	)
 
 	rootCmd.PersistentFlags().BoolVarP(
@@ -95,7 +95,7 @@ func initConfig() {
 			viper.AddConfigPath(path.Join(home, ".config"))
 		}
 
-		viper.AddConfigPath("/etc")
+		viper.AddConfigPath("/etc/keyvault-certdeploy")
 		viper.AddConfigPath(".")
 	}
 

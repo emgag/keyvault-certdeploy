@@ -41,6 +41,12 @@ func init() {
 		"Name of the full certificate chain file",
 	)
 
+	dumpCmd.Flags().String(
+		"fullchainprivkey",
+		"fullchain.privkey.pem",
+		"Name of the full certificate chain + private key file",
+	)
+
 	rootCmd.AddCommand(dumpCmd)
 }
 
@@ -70,6 +76,7 @@ var dumpCmd = &cobra.Command{
 			{"cert", c.LeafPEM(), os.FileMode(0444), "certificate"},
 			{"chain", c.ChainPEM(), os.FileMode(0444), "certificate chain"},
 			{"fullchain", c.RawCert, os.FileMode(0444), "full certificate chain"},
+			{"fullchainprivkey", c.FullPEM(), os.FileMode(0400), "full certificate chain + private key"},
 		}
 
 		for _, f := range files {

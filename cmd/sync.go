@@ -77,9 +77,15 @@ var syncCmd = &cobra.Command{
 				{c.Cert, rc.LeafPEM(), os.FileMode(0444), "certificate"},
 				{c.Chain, rc.ChainPEM(), os.FileMode(0444), "certificate chain"},
 				{c.FullChain, rc.RawCert, os.FileMode(0444), "full certificate chain"},
+				{c.FullChainPrivKey, rc.FullPEM(), os.FileMode(0400), "full certificate chain + private key"},
 			}
 
 			for _, f := range files {
+				if f.Name == "" {
+					log.Noticef("No filename for %s defined, skipping", f.Description)
+					continue
+				}
+
 				if _, err := os.Stat(f.Name); err == nil {
 					log.Noticef("%s already exists, removing", f.Name)
 

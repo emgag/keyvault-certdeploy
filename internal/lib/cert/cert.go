@@ -60,6 +60,14 @@ func (c *Certificate) ChainPEM() []byte {
 	return buf.Bytes()
 }
 
+// FullPEM returns the full certificate chain and private key as a pem encoded byte slice
+func (c *Certificate) FullPEM() []byte {
+	buf := new(bytes.Buffer)
+	buf.Write(c.RawCert)
+	buf.Write(c.RawKey)
+	return buf.Bytes()
+}
+
 // String returns to private key concatenated with the whole certificate chain as a PEM-encoded string
 func (c *Certificate) String() string {
 	sb := strings.Builder{}

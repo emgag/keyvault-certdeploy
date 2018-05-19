@@ -26,7 +26,7 @@ var rootCmd = &cobra.Command{
 		}
 
 		if viper.GetString("keyvault.name") == "" || viper.GetString("keyvault.url") == "" {
-			return errors.New("Invalid config: at least keyvault.name and keyvault.url need to be set.")
+			return errors.New("Invalid config: at least keyvault.name and keyvault.url need to be set")
 		}
 
 		return nil

@@ -1,7 +1,7 @@
 ---
-keyvault_certdeploy_version: 1.0.0-beta4
+keyvault_certdeploy_version: 1.0.0
 keyvault_certdeploy_url: "https://github.com/emgag/keyvault-certdeploy/releases/download/v{{ keyvault_certdeploy_version }}/keyvault-certdeploy_{{ keyvault_certdeploy_version }}_linux_amd64.tar.gz"
-keyvault_certdeploy_checksum: "sha256:936bd700a968086142ff40cd403e165d6c6ff3f15309a9a37b7008e2454ac580"
+keyvault_certdeploy_checksum: "sha256:b50d1db1b5a701f812bf09448744855a64b849d81031c7b6fdc74d79be586d11"
 
 keyvault_certdeploy_config_root: /etc/keyvault-certdeploy
 keyvault_certdeploy_config: "{{ keyvault_certdeploy_config_root }}/keyvault-certdeploy.yml"

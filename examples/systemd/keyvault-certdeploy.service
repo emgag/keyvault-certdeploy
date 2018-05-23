@@ -1,0 +1,12 @@
+[Unit]
+Description=Fetch updates of certificates on boot
+After=systemd-networkd-wait-online.service
+Before=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=-/etc/keyvault-certdeploy/.env
+ExecStart=/usr/local/sbin/keyvault-certdeploy sync -v --nohooks
+
+[Install]
+WantedBy=network-online.target

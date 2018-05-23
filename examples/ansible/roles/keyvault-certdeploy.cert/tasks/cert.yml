@@ -1,0 +1,9 @@
+---
+- name: add keyvault-certdeploy config for {{ cert }}
+  template:
+    src: cert.yml.j2
+    dest: "{{ keyvault_certdeploy_configd }}/50_{{ cert }}.yml"
+    mode: 0400
+  notify:
+    - build keyvault-certdeploy config
+

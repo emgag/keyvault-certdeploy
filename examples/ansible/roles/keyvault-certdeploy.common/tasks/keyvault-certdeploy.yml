@@ -1,0 +1,84 @@
+---
+- name: download package
+  get_url:
+    url: "{{ keyvault_certdeploy_url }}"
+    checksum: "{{ keyvault_certdeploy_checksum }}"
+    dest: /usr/local/src/keyvault-certdeploy.tar.gz
+  register: download
+- name: install
+  block:
+    - name: extract files
+      unarchive:
+        src: /usr/local/src/keyvault-certdeploy.tar.gz
+        remote_src: yes
+        dest: /usr/local/sbin
+        exclude:
+          - LICENSE
+  when: download.changed
+- name: set permissions
+  file:
+    path: /usr/local/sbin/keyvault-certdeploy
+    owner: root
+    group: root
+    mode: 0550
+- name: create config source directory
+  file:
+    path: "{{ keyvault_certdeploy_configd }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0500
+- name: copy cert vault configuration
+  template:
+    src: vault.yml.j2
+    dest: "{{ keyvault_certdeploy_configd }}/00_vault.yml"
+  notify:
+    - build keyvault-certdeploy config
+- name: create hooks directory
+  file:
+    path: "{{ keyvault_certdeploy_hooksd }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0500
+- name: deploy default hooks
+  copy:
+    src: hooks/{{ item }}
+    dest: "{{ keyvault_certdeploy_hooksd }}/10_{{ item }}"
+    mode: 0500
+  loop:
+    - apache2
+    - haproxy
+    - nginx
+- name: deploy service environment file
+  template:
+    src: env.j2
+    dest: "{{ keyvault_certdeploy_config_root }}/.env"
+    owner: root
+    group: root
+    mode: 0400
+- name: deploy systemd services
+  template:
+    src: "{{ item }}.j2"
+    dest: /etc/systemd/system/{{ item }}
+    owner: root
+    group: root
+    mode: 0444
+  loop:
+    - keyvault-certdeploy.service
+    - keyvault-certdeploy-periodic.service
+    - keyvault-certdeploy-periodic.timer
+- name: enable services
+  systemd:
+    name: "{{ item }}.service"
+    enabled: yes
+    daemon_reload: yes
+  loop:
+    - keyvault-certdeploy
+    - keyvault-certdeploy-periodic
+- name: enable timer
+  systemd:
+    name: keyvault-certdeploy-periodic.timer
+    enabled: yes
+    state: started
+    daemon_reload: yes

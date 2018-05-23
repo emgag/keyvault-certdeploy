@@ -1,0 +1,7 @@
+[Unit]
+Description=Fetch updates of certificates periodically
+
+[Service]
+Type=oneshot
+EnvironmentFile=-/etc/keyvault-certdeploy/.env
+ExecStart=/usr/local/sbin/keyvault-certdeploy sync -v

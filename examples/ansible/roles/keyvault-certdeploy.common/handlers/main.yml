@@ -1,0 +1,7 @@
+# assemble main
+- name: assemble keyvault-certdeploy config
+  assemble:
+    src: "{{ keyvault_certdeploy_configd }}"
+    dest: "{{ keyvault_certdeploy_config }}"
+    mode: 0400
+  listen: build keyvault-certdeploy config

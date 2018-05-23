@@ -1,0 +1,11 @@
+# ++++++++++++++++++++++++++++++++++++++++++++
+# DO NOT EDIT MANUALLY
+# ++++++++++++++++++++++++++++++++++++++++++++
+# {{ ansible_managed }}
+[Unit]
+Description=Fetch updates of certificates periodically
+
+[Service]
+Type=oneshot
+EnvironmentFile=-{{ keyvault_certdeploy_config_root }}/.env
+ExecStart=/usr/local/sbin/keyvault-certdeploy sync -v

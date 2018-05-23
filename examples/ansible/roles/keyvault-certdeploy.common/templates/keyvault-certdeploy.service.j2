@@ -1,0 +1,16 @@
+# ++++++++++++++++++++++++++++++++++++++++++++
+# DO NOT EDIT MANUALLY
+# ++++++++++++++++++++++++++++++++++++++++++++
+# {{ ansible_managed }}
+[Unit]
+Description=Fetch updates of certificates on boot
+After=systemd-networkd-wait-online.service
+Before=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=-{{ keyvault_certdeploy_config_root }}/.env
+ExecStart=/usr/local/sbin/keyvault-certdeploy sync -v --nohooks
+
+[Install]
+WantedBy=network-online.target

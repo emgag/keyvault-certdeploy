@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if [[ -f /usr/sbin/nginx ]]; then
+    systemctl reload nginx
+fi

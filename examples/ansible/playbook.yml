@@ -1,0 +1,8 @@
+---
+- name: example play
+  hosts: all
+  vars:
+    keyvault_certdeploy_vault_name: some-keyvault-name
+  roles:
+    - { role: keyvault-certdeploy.cert, cert: "example.org" }
+    - { role: keyvault-certdeploy.cert, cert: "example.net" }

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if [[ -f /usr/sbin/haproxy ]]; then
+    systemctl reload haproxy
+fi

@@ -1,0 +1,19 @@
+  # {{ ansible_managed }}
+  - cn: {{ cert }}
+    keyalgo: rsa
+    privkey: /etc/ssl/private/{{ cert }}.rsa.key.pem
+    cert: /etc/ssl/certs/{{ cert }}.rsa.crt.pem
+    chain: /etc/ssl/certs/{{ cert }}.rsa.chain.pem
+    fullchain: /etc/ssl/certs/{{ cert }}.rsa.fullchain.pem
+    fullchainprivkey: /etc/ssl/private/{{ cert }}.rsa.fullchain.key.pem
+    hooks:
+      - run-parts {{ keyvault_certdeploy_hooksd }}
+  - cn: {{ cert }}
+    keyalgo: ecdsa
+    privkey: /etc/ssl/private/{{ cert }}.ecdsa.key.pem
+    cert: /etc/ssl/certs/{{ cert }}.ecdsa.crt.pem
+    chain: /etc/ssl/certs/{{ cert }}.ecdsa.chain.pem
+    fullchain: /etc/ssl/certs/{{ cert }}.ecdsa.fullchain.pem
+    fullchainprivkey: /etc/ssl/private/{{ cert }}.ecdsa.fullchain.key.pem
+    hooks:
+      - run-parts {{ keyvault_certdeploy_hooksd }}

@@ -1,0 +1,2 @@
+---
+- { import_tasks: keyvault-certdeploy.yml, tags: [ keyvault-certdeploy ] }

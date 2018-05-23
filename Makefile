@@ -10,7 +10,7 @@ build:
 	CGO_ENABLED=0 GOOS=linux go build -a -v -o ${OUT} ${PKG}
 
 install:
-	CGO_ENABLED=0 GOOS=linux go install -a -v -o ${OUT} ${PKG}
+	CGO_ENABLED=0 GOOS=linux go install -a -v ${PKG}
 
 snapshot:
 	goreleaser --snapshot --rm-dist

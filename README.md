@@ -8,7 +8,7 @@
 ## Requirements
 
 * [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault) vault and an account with write permissions to vault secrets (for uploading new certs) and a read-only secret permissions for fetching certs. 
-* Go >=1.10 for building.  
+* Go >=1.11 for building.  
 
 ## Limitations
 
@@ -127,14 +127,6 @@ $ make install
 ```
 
 will download the source and build binary called _keyvault-certdeploy_ in $GOPATH/bin.
-
-## Bundled libraries
-
-* [Cobra](https://github.com/spf13/cobra) command line processing 
-* [go-homedir](https://github.com/mitchellh/go-homedir) home directory expansion 
-* [go-playground/log](https://github.com/go-playground/log) enhanced logging
-* [Microsoft Azure SDK for Go](https://github.com/Azure/azure-sdk-for-go)
-* [Viper](https://github.com/spf13/viper) configuration library
 
 ## License
 

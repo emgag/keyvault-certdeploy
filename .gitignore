@@ -1,6 +1,7 @@
 /dist
 /keyvault-certdeploy
 /keyvault-certdeploy.yml
+/vendor
 
 # Created by .ignore support plugin (hsz.mobi)
 ### JetBrains template

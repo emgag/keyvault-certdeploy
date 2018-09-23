@@ -35,7 +35,7 @@ var syncCmd = &cobra.Command{
 	Short: "Sync configured certificates from vault to system",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		certs := []config.CertList{}
+		var certs []config.CertList
 		err := viper.UnmarshalKey("certs", &certs)
 
 		if err != nil {

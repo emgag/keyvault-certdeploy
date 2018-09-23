@@ -69,7 +69,7 @@ func init() {
 // initLogger sets loglevels based on flags
 func initLogger() {
 	con := console.New(true)
-	levels := []log.Level{}
+	var levels []log.Level
 
 	if logVerbose {
 		levels = log.AllLevels

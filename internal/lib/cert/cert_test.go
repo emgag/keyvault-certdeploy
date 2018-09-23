@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-type CertInfo struct {
+type certInfo struct {
 	KeyFile            string
 	KeyData            []byte
 	CertFile           string
@@ -20,6 +20,8 @@ type CertInfo struct {
 	ChainData          []byte
 	FullChainFile      string
 	FullChainData      []byte
+	FullChainKeyFile   string
+	FullChainKeyData   []byte
 	SubjectCN          string
 	NotAfter           time.Time
 	PublicKeyAlgorithm string
@@ -28,7 +30,7 @@ type CertInfo struct {
 
 var testData = "../../../testdata"
 
-var testCerts = []*CertInfo{
+var testCerts = []*certInfo{
 	{
 		SubjectCN:          "c1.example.org",
 		PublicKeyAlgorithm: "rsa",
@@ -57,11 +59,13 @@ func setup() {
 		c.KeyFile = filepath.Join(testData, fmt.Sprintf("%s.privkey.%s.pem", c.SubjectCN, c.PublicKeyAlgorithm))
 		c.CertFile = filepath.Join(testData, fmt.Sprintf("%s.cert.%s.pem", c.SubjectCN, c.PublicKeyAlgorithm))
 		c.FullChainFile = filepath.Join(testData, fmt.Sprintf("%s.fullchain.%s.pem", c.SubjectCN, c.PublicKeyAlgorithm))
+		c.FullChainKeyFile = filepath.Join(testData, fmt.Sprintf("%s.fullchain.key.%s.pem", c.SubjectCN, c.PublicKeyAlgorithm))
 		c.ChainFile = filepath.Join(testData, "chain.pem")
 		c.KeyData, _ = ioutil.ReadFile(c.KeyFile)
 		c.CertData, _ = ioutil.ReadFile(c.CertFile)
 		c.ChainData, _ = ioutil.ReadFile(c.ChainFile)
 		c.FullChainData, _ = ioutil.ReadFile(c.FullChainFile)
+		c.FullChainKeyData, _ = ioutil.ReadFile(c.FullChainKeyFile)
 	}
 }
 
@@ -115,9 +119,9 @@ func TestCerts(t *testing.T) {
 			t.Error("ChainPEM() does not return correct cert data")
 		}
 
-		//if bytes.Compare(tc.FullChainData, c.FullPEM()) != 0 {
-		//	t.Error("FullPEM() does not return correct cert data")
-		//}
+		if bytes.Compare(tc.FullChainKeyData, c.FullPEM()) != 0 {
+			t.Error("FullPEM() does not return correct cert data")
+		}
 
 	}
 }

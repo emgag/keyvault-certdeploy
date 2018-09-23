@@ -21,6 +21,7 @@ keyvault-certdeploy uses the [automatic environment authentication from the Azur
 Required access policies to vault:
 * To push certificates: Secret Get & Set
 * To fetch (dump & sync) certificates: Secret Get
+* To list certificates: Secret List
 
 ## Configuration
 
@@ -37,8 +38,10 @@ Usage:
 Available Commands:
   dump        Dump certificate and key from vault to current directory or dir, if supplied
   help        Help about any command
+  list        List certificates in vault
   push        Push a certificate to the vault
   sync        Sync configured certificates from vault to system
+  version     Print the version number of keyvault-certdeploy
 
 Flags:
   -c, --config string   Config file (default locations are $HOME/.config/keyvault-certdeploy.yml, /etc/keyvault-certdeploy/keyvault-certdeploy.yml, $PWD/keyvault-certdeploy.yml)
@@ -76,6 +79,17 @@ See [certbot's documentation about this](https://certbot.eff.org/docs/using.html
 
 Additionally, following files will be generated as well:
 * `fullchain.privkey.pem` : the concatenation of fullchain and privkey.
+
+### list
+
+```
+List certificates in vault
+
+Usage:
+  keyvault-certdeploy list [flags]
+```
+
+This command will list all certificates in configured vault.
 
 ### push
 

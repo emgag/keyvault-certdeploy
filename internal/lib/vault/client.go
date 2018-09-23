@@ -38,6 +38,41 @@ func NewClient() (*keyvault.BaseClient, error) {
 	return &vc, nil
 }
 
+// GetCertificates returns a list of all certificates in vault
+func GetCertificates() ([]*cert.Certificate, error) {
+	vc, err := NewClient()
+
+	if err != nil {
+		return nil, err
+	}
+
+	var certs []*cert.Certificate
+
+	req, err := vc.GetSecrets(context.Background(), viper.GetString("keyvault.url"), nil)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for ; req.NotDone(); err = req.Next() {
+		if err != nil {
+			return nil, err
+		}
+
+		for _, item := range req.Values() {
+			c, err := PullCertificate(*item.Tags[TagSubjectCN], *item.Tags[TagKeyAlgo])
+
+			if err != nil {
+				return nil, err
+			}
+
+			certs = append(certs, c)
+		}
+	}
+
+	return certs, nil
+}
+
 // PushCertificate uploads a certificate to the key vault
 func PushCertificate(cert *cert.Certificate) error {
 	remote, err := PullCertificate(cert.SubjectCN(), cert.PublicKeyAlgorithm())

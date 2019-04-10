@@ -130,7 +130,7 @@ Certificates are pushed to the vault as an unencrypted, single PEM-formated file
 
 ## Build
 
-On Linux:
+### On Linux
 
 ```
 $ mkdir keyvault-certdeploy && cd keyvault-certdeploy
@@ -141,6 +141,14 @@ $ make install
 ```
 
 will download the source and build binary called _keyvault-certdeploy_ in $GOPATH/bin.
+
+### Using Docker
+
+```
+$ docker build -t keyvault-certdeploy:latest .
+```
+
+will build a Docker image.
 
 ## License
 

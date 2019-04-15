@@ -17,3 +17,4 @@ COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certifica
 COPY --from=build /keyvault-certdeploy /keyvault-certdeploy
 
 ENTRYPOINT ["/keyvault-certdeploy"]
+CMD []

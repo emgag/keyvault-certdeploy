@@ -3,6 +3,7 @@ OUT := keyvault-certdeploy
 PKG := github.com/emgag/keyvault-certdeploy
 PKG_LIST := $(shell go list ${PKG}/... )
 GO_FILES := $(shell find . -name '*.go' )
+VERSION := $(shell git describe --always --dirty --tags)
 
 all: build
 
@@ -36,4 +37,10 @@ clean:
 	-@rm -vf ${OUT}
 	-@rm -vrf dist
 
-
+docker:
+	docker build \
+		-t emgag/keyvault-certdeploy:${VERSION} \
+		-t emgag/keyvault-certdeploy:latest\
+		.
+	docker push emgag/keyvault-certdeploy:${VERSION}
+	docker push emgag/keyvault-certdeploy:latest

@@ -2,6 +2,10 @@
 
 [![Build Status](https://travis-ci.org/emgag/keyvault-certdeploy.svg?branch=master)](https://travis-ci.org/emgag/keyvault-certdeploy)
 [![Go Report Card](https://goreportcard.com/badge/github.com/emgag/keyvault-certdeploy)](https://goreportcard.com/report/github.com/emgag/keyvault-certdeploy)
+[![Docker Pulls](https://img.shields.io/docker/pulls/emgag/keyvault-certdeploy.svg)](https://hub.docker.com/r/emgag/keyvault-certdeploy)
+[![Image Layers](https://images.microbadger.com/badges/image/emgag/keyvault-certdeploy.svg)](https://microbadger.com/images/emgag/keyvault-certdeploy "Get your own image badge on microbadger.com")
+[![Latest Version](https://images.microbadger.com/badges/version/emgag/keyvault-certdeploy.svg)](https://microbadger.com/images/emgag/keyvault-certdeploy "Get your own version badge on microbadger.com")
+
 
 **keyvault-certdeploy** is a helper tool used to facilitate X.509 certificate deployment to Linux VMs with [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/). Unlike the built-in method via VM secrets, it does support RSA and ECDSA certificates, local deployment and update hooks. It can be used to push certificates to Key Vault from a Let's Encrypt deployment hook and to refresh VM certificates on boot or to periodically poll for updates via cronjob. 
 
@@ -133,11 +137,7 @@ Certificates are pushed to the vault as an unencrypted, single PEM-formated file
 ### On Linux
 
 ```
-$ mkdir keyvault-certdeploy && cd keyvault-certdeploy
-$ export GOPATH=$PWD
-$ go get -d github.com/emgag/keyvault-certdeploy
-$ cd src/github.com/emgag/keyvault-certdeploy
-$ make install
+$ go get -u github.com/emgag/keyvault-certdeploy
 ```
 
 will download the source and build binary called _keyvault-certdeploy_ in $GOPATH/bin.
@@ -145,6 +145,8 @@ will download the source and build binary called _keyvault-certdeploy_ in $GOPAT
 ### Using Docker
 
 ```
+$ go get -u github.com/goreleaser/goreleaser
+$ $(go env GOPATH)/bin/goreleaser --snapshot --rm-dist
 $ docker build -t keyvault-certdeploy:latest .
 ```
 

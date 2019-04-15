@@ -16,4 +16,4 @@ LABEL maintainer="Matthias Blaser <mb@emgag.com>"
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=build /keyvault-certdeploy /keyvault-certdeploy
 
-CMD ["/keyvault-certdeploy"]
+ENTRYPOINT ["/keyvault-certdeploy"]

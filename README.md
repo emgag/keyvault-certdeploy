@@ -30,9 +30,9 @@ Required access policies to vault:
 
 ## Install 
 
-Either download a [compiled release](https://github.com/emgag/keyvault-certdeploy/releases) or see build instructions in this README.
+Either download a [compiled release](https://github.com/emgag/keyvault-certdeploy/releases), use the [emgag/keyvault-certdeploy](https://hub.docker.com/r/emgag/keyvault-certdeploy) docker image or see build instructions in this README.
 
-Also checkout example [ansible role](https://github.com/emgag/keyvault-certdeploy/tree/master/examples/ansible) for deploying keyvault-certdeploy and individual certificates or [systemd unit files](https://github.com/emgag/keyvault-certdeploy/tree/master/examples/systemd).
+Also checkout example [ansible role](https://github.com/emgag/keyvault-certdeploy/tree/master/examples/ansible) for deploying keyvault-certdeploy and individual certificates or the [systemd unit files](https://github.com/emgag/keyvault-certdeploy/tree/master/examples/systemd) for running keyvault-certdeploy as an onboot- and/or periodic service.
 
 ## Configuration
 

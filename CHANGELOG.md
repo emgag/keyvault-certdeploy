@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.0] - 2019-09-14
+
+### Added
+
+- delete command to remove a single certificate from vault.
+- prune command to automatically remove expired certificates from vault. 
+
+### Changed
+
+- Update dependencies.
+- Compile using Go 1.13.
+
 ## [1.1.0] - 2018-09-23
 
 ### Added
@@ -21,5 +33,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 Initial release
 
-[Unreleased]: https://github.com/emgag/keyvault-certdeploy/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/emgag/keyvault-certdeploy/compare/v1.2.0...HEAD
 [1.1.0]: https://github.com/emgag/keyvault-certdeploy/compare/v1.0.0...v1.1.0
+[1.2.0]: https://github.com/emgag/keyvault-certdeploy/compare/v1.1.0...v1.2.0

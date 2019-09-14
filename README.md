@@ -12,7 +12,7 @@
 ## Requirements
 
 * [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault) vault and an account with write permissions to vault secrets (for uploading new certs) and a read-only secret permissions for fetching certs. 
-* Go >=1.11 for building.  
+* Go >=1.13 for building.  
 
 ## Limitations
 
@@ -26,6 +26,13 @@ Required access policies to vault:
 * To push certificates: Secret Get & Set
 * To fetch (dump & sync) certificates: Secret Get
 * To list certificates: Secret Get & List
+* To delete certificates (delete & prune): Secret Delete, Get & List 
+
+## Install 
+
+Either download a [compiled release](https://github.com/emgag/keyvault-certdeploy/releases) or see build instructions in this README.
+
+Also checkout example [ansible role](https://github.com/emgag/keyvault-certdeploy/tree/master/examples/ansible) for deploying keyvault-certdeploy and individual certificates or [systemd unit files](https://github.com/emgag/keyvault-certdeploy/tree/master/examples/systemd).
 
 ## Configuration
 
@@ -40,9 +47,11 @@ Usage:
   keyvault-certdeploy [command]
 
 Available Commands:
+  delete      Deletes certificate from vault
   dump        Dump certificate and key from vault to current directory or dir, if supplied
   help        Help about any command
   list        List certificates in vault
+  prune       Remove expired certificates from vault
   push        Push a certificate to the vault
   sync        Sync configured certificates from vault to system
   version     Print the version number of keyvault-certdeploy
@@ -52,7 +61,24 @@ Flags:
   -h, --help            help for keyvault-certdeploy
   -q, --quiet           Be quiet
   -v, --verbose         Be more verbose
+
+Use "keyvault-certdeploy [command] --help" for more information about a command.
 ```
+
+### delete
+
+```
+Deletes certificate from vault
+
+Usage:
+  keyvault-certdeploy delete <subject> <keyalgo> [flags]
+
+Flags:
+  -h, --help   help for delete
+  -y, --yes    Don't confirm before deleting
+```
+
+This command removes a single certificate from vault. 
 
 ### dump
 
@@ -94,6 +120,23 @@ Usage:
 ```
 
 This command will list all certificates in configured vault.
+
+### prune
+
+```
+Remove expired certificates from vault
+
+Usage:
+  keyvault-certdeploy prune [flags]
+
+Flags:
+  -d, --days int   Delete certificates after this many days of being expired (default 7)
+  -h, --help       help for prune
+  -n, --noop       Just list expired certificates, don't actually remove the certs
+  -y, --yes        Don't confirm before pruning
+```
+
+Automatically remove all certificates which expired _-d_ days ago from vault.  
 
 ### push
 

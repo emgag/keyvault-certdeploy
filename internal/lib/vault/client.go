@@ -138,6 +138,27 @@ func PullCertificate(subject string, keyalgo string) (*cert.Certificate, error) 
 	return c, nil
 }
 
+// DeleteCertificate deletes a certificate from vault
+func DeleteCertificate(subject string, keyalgo string) error {
+	vc, err := NewClient()
+
+	if err != nil {
+		return err
+	}
+
+	_, err = vc.DeleteSecret(
+		context.Background(),
+		viper.GetString("keyvault.url"),
+		CertificateID(subject, keyalgo),
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // CertificateID generates an object id to be used as an identifier for the cert in the vault
 func CertificateID(subject string, keyalgo string) string {
 	return fmt.Sprintf(

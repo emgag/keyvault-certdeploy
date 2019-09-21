@@ -24,6 +24,7 @@ const (
 	TagSubjectCN = "subjectcn"
 )
 
+// Client represents a certdeploy client
 type Client struct {
 	VaultClient *keyvault.BaseClient
 	VaultURL    string
@@ -126,7 +127,7 @@ func (c *Client) DeleteCertificate(subject string, keyalgo string) error {
 	return nil
 }
 
-// NewClient creates a new key vault client
+// NewClient creates a new vault client
 func NewClient(vaultURL string) (*Client, error) {
 	authorizer, err := auth.NewAuthorizerFromEnvironment()
 

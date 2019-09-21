@@ -4,6 +4,8 @@ import (
 	"github.com/emgag/keyvault-certdeploy/internal/lib/vault"
 	"github.com/go-playground/log"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+
 	"io/ioutil"
 	"os"
 	"path"
@@ -55,10 +57,16 @@ var dumpCmd = &cobra.Command{
 	Short: "Dump certificate and key from vault to current directory or dir, if supplied",
 	Args:  cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
+		client, err := vault.NewClient(viper.GetString("keyvault.url"))
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		subject := args[0]
 		keyalgo := args[1]
 
-		c, err := vault.PullCertificate(subject, keyalgo)
+		c, err := client.PullCertificate(subject, keyalgo)
 
 		if err != nil {
 			log.Fatal(err)

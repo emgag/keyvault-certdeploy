@@ -5,6 +5,7 @@ import (
 	"github.com/emgag/keyvault-certdeploy/internal/lib/vault"
 	"github.com/go-playground/log"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 func init() {
@@ -25,7 +26,13 @@ var pushCmd = &cobra.Command{
 			log.Fatalf("Error loading cert: %s", err)
 		}
 
-		err = vault.PushCertificate(c)
+		client, err := vault.NewClient(viper.GetString("keyvault.url"))
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = client.PushCertificate(c)
 
 		if err != nil {
 			log.Errorf("Error pushing cert: %s", err)

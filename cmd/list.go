@@ -5,6 +5,8 @@ import (
 	"github.com/emgag/keyvault-certdeploy/internal/lib/vault"
 	"github.com/go-playground/log"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+
 	"strings"
 )
 
@@ -17,9 +19,15 @@ var listCmd = &cobra.Command{
 	Short: "List certificates in vault",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
+		client, err := vault.NewClient(viper.GetString("keyvault.url"))
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		log.Notice("Fetching certificate list")
 
-		certs, err := vault.GetCertificates()
+		certs, err := client.GetCertificates()
 
 		if err != nil {
 			log.Fatalf("Error fetching certificate list: %s", err)

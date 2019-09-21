@@ -8,6 +8,7 @@ import (
 	"github.com/go-playground/log"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 func init() {
@@ -26,10 +27,16 @@ var deleteCmd = &cobra.Command{
 	Short: "Deletes certificate from vault",
 	Args:  cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
+		client, err := vault.NewClient(viper.GetString("keyvault.url"))
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		subject := args[0]
 		keyalgo := args[1]
 
-		c, err := vault.PullCertificate(subject, keyalgo)
+		c, err := client.PullCertificate(subject, keyalgo)
 
 		if err != nil {
 			log.Fatal(err)
@@ -54,7 +61,7 @@ var deleteCmd = &cobra.Command{
 			}
 		}
 
-		err = vault.DeleteCertificate(subject, keyalgo)
+		err = client.DeleteCertificate(subject, keyalgo)
 
 		if err != nil {
 			log.Fatal(err)

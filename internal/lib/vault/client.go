@@ -4,12 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
+
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/2016-10-01/keyvault"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/auth"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/emgag/keyvault-certdeploy/internal/lib/cert"
-	"github.com/spf13/viper"
-	"strings"
 )
 
 const (
@@ -24,31 +24,16 @@ const (
 	TagSubjectCN = "subjectcn"
 )
 
-// NewClient creates a new key vault client
-func NewClient() (*keyvault.BaseClient, error) {
-	authorizer, err := auth.NewAuthorizerFromEnvironment()
-
-	if err != nil {
-		return nil, err
-	}
-
-	vc := keyvault.New()
-	vc.Authorizer = authorizer
-
-	return &vc, nil
+type Client struct {
+	VaultClient *keyvault.BaseClient
+	VaultURL    string
 }
 
 // GetCertificates returns a list of all certificates in vault
-func GetCertificates() ([]*cert.Certificate, error) {
-	vc, err := NewClient()
-
-	if err != nil {
-		return nil, err
-	}
-
+func (c *Client) GetCertificates() ([]*cert.Certificate, error) {
 	var certs []*cert.Certificate
 
-	req, err := vc.GetSecrets(context.Background(), viper.GetString("keyvault.url"), nil)
+	req, err := c.VaultClient.GetSecrets(context.Background(), c.VaultURL, nil)
 
 	if err != nil {
 		return nil, err
@@ -60,7 +45,7 @@ func GetCertificates() ([]*cert.Certificate, error) {
 		}
 
 		for _, item := range req.Values() {
-			c, err := PullCertificate(*item.Tags[TagSubjectCN], *item.Tags[TagKeyAlgo])
+			c, err := c.PullCertificate(*item.Tags[TagSubjectCN], *item.Tags[TagKeyAlgo])
 
 			if err != nil {
 				return nil, err
@@ -74,19 +59,13 @@ func GetCertificates() ([]*cert.Certificate, error) {
 }
 
 // PushCertificate uploads a certificate to the key vault
-func PushCertificate(cert *cert.Certificate) error {
-	remote, err := PullCertificate(cert.SubjectCN(), cert.PublicKeyAlgorithm())
+func (c *Client) PushCertificate(cert *cert.Certificate) error {
+	remote, err := c.PullCertificate(cert.SubjectCN(), cert.PublicKeyAlgorithm())
 
 	if err == nil {
 		if cert.Fingerprint() == remote.Fingerprint() {
 			return errors.New("Certificate already in keyvault")
 		}
-	}
-
-	vc, err := NewClient()
-
-	if err != nil {
-		return err
 	}
 
 	ssp := keyvault.SecretSetParameters{
@@ -100,9 +79,9 @@ func PushCertificate(cert *cert.Certificate) error {
 		Value:       to.StringPtr(cert.String()),
 	}
 
-	_, err = vc.SetSecret(
+	_, err = c.VaultClient.SetSecret(
 		context.Background(),
-		viper.GetString("keyvault.url"),
+		c.VaultURL,
 		CertificateIDFromCert(cert),
 		ssp,
 	)
@@ -111,16 +90,10 @@ func PushCertificate(cert *cert.Certificate) error {
 }
 
 // PullCertificate fetches a certificate from the key vault
-func PullCertificate(subject string, keyalgo string) (*cert.Certificate, error) {
-	vc, err := NewClient()
-
-	if err != nil {
-		return nil, err
-	}
-
-	sb, err := vc.GetSecret(
+func (c *Client) PullCertificate(subject string, keyalgo string) (*cert.Certificate, error) {
+	sb, err := c.VaultClient.GetSecret(
 		context.Background(),
-		viper.GetString("keyvault.url"),
+		c.VaultURL,
 		CertificateID(subject, keyalgo),
 		"",
 	)
@@ -129,26 +102,20 @@ func PullCertificate(subject string, keyalgo string) (*cert.Certificate, error) 
 		return nil, err
 	}
 
-	c, err := cert.Load(cert.Split([]byte(*sb.Value)))
+	crt, err := cert.Load(cert.Split([]byte(*sb.Value)))
 
 	if err != nil {
 		return nil, err
 	}
 
-	return c, nil
+	return crt, nil
 }
 
 // DeleteCertificate deletes a certificate from vault
-func DeleteCertificate(subject string, keyalgo string) error {
-	vc, err := NewClient()
-
-	if err != nil {
-		return err
-	}
-
-	_, err = vc.DeleteSecret(
+func (c *Client) DeleteCertificate(subject string, keyalgo string) error {
+	_, err := c.VaultClient.DeleteSecret(
 		context.Background(),
-		viper.GetString("keyvault.url"),
+		c.VaultURL,
 		CertificateID(subject, keyalgo),
 	)
 
@@ -157,6 +124,25 @@ func DeleteCertificate(subject string, keyalgo string) error {
 	}
 
 	return nil
+}
+
+// NewClient creates a new key vault client
+func NewClient(vaultURL string) (*Client, error) {
+	authorizer, err := auth.NewAuthorizerFromEnvironment()
+
+	if err != nil {
+		return nil, err
+	}
+
+	vc := keyvault.New()
+	vc.Authorizer = authorizer
+
+	c := &Client{
+		VaultURL:    vaultURL,
+		VaultClient: &vc,
+	}
+
+	return c, nil
 }
 
 // CertificateID generates an object id to be used as an identifier for the cert in the vault

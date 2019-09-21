@@ -1,16 +1,17 @@
 package cmd
 
 import (
+	"io/ioutil"
+	"os"
+	"os/exec"
+	"strings"
+
 	"github.com/emgag/keyvault-certdeploy/internal/lib/cert"
 	"github.com/emgag/keyvault-certdeploy/internal/lib/config"
 	"github.com/emgag/keyvault-certdeploy/internal/lib/vault"
 	"github.com/go-playground/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"io/ioutil"
-	"os"
-	"os/exec"
-	"strings"
 )
 
 func init() {
@@ -42,12 +43,18 @@ var syncCmd = &cobra.Command{
 			log.Fatalf("Error loading config: %s", err)
 		}
 
+		client, err := vault.NewClient(viper.GetString("keyvault.url"))
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		hooks := make(map[string]bool)
 
 		for _, c := range certs {
 			log.Infof("Fetching %s cert %s", c.KeyAlgo, c.SubjectCN)
 
-			rc, err := vault.PullCertificate(c.SubjectCN, c.KeyAlgo)
+			rc, err := client.PullCertificate(c.SubjectCN, c.KeyAlgo)
 
 			if err != nil {
 				log.Errorf("Error fetching %s cert %s: %s", c.KeyAlgo, c.SubjectCN, err)

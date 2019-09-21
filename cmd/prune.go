@@ -8,6 +8,7 @@ import (
 	"github.com/go-playground/log"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 func init() {
@@ -40,9 +41,15 @@ var pruneCmd = &cobra.Command{
 	Short: "Remove expired certificates from vault",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
+		client, err := vault.NewClient(viper.GetString("keyvault.url"))
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		log.Notice("Fetching certificate list")
 
-		certs, err := vault.GetCertificates()
+		certs, err := client.GetCertificates()
 
 		if err != nil {
 			log.Fatalf("Error fetching certificate list: %s", err)
@@ -101,7 +108,7 @@ var pruneCmd = &cobra.Command{
 			}
 
 			for _, c := range certs {
-				err = vault.DeleteCertificate(c.SubjectCN(), c.PublicKeyAlgorithm())
+				err = client.DeleteCertificate(c.SubjectCN(), c.PublicKeyAlgorithm())
 
 				if err != nil {
 					log.Errorf("Failed deleting certificate %s (%s, %s): %s",

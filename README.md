@@ -7,7 +7,7 @@
 [![Latest Version](https://images.microbadger.com/badges/version/emgag/keyvault-certdeploy.svg)](https://microbadger.com/images/emgag/keyvault-certdeploy "Get your own version badge on microbadger.com")
 
 
-**keyvault-certdeploy** is a helper tool used to facilitate X.509 certificate deployment to Linux VMs with [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/). Unlike the built-in method via VM secrets, it does support RSA and ECDSA certificates, local deployment and update hooks. It can be used to push certificates to Key Vault from a Let's Encrypt deployment hook and to refresh VM certificates on boot or to periodically poll for updates via cronjob. 
+**keyvault-certdeploy** is a tool used to facilitate X.509 certificate deployment to Linux systems with [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/), supporting RSA and ECDSA certificates, local deployment and update hooks. Originally built to work around shortcomings in the Azure certificiate provisioning via VM secrets, it's possible to provision systems outside of Azure as well, provided they have access to the corresponding vault. It can be used to push certificates to Key Vault from a Let's Encrypt deployment hook and to refresh VM certificates on boot or to periodically poll for updates via cronjob.
 
 ## Requirements
 

@@ -1,8 +1,10 @@
 package cmd
 
 import (
+	"fmt"
 	"path"
 
+	"github.com/emgag/keyvault-certdeploy/internal/lib/version"
 	"github.com/go-playground/errors"
 	"github.com/go-playground/log"
 	"github.com/go-playground/log/handlers/console"
@@ -18,8 +20,9 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "keyvault-certdeploy",
-	Short: "X.509-Certificate deployment helper for Azure Key Vault",
+	Use:     "keyvault-certdeploy",
+	Short:   "X.509-Certificate deployment helper for Azure Key Vault",
+	Version: fmt.Sprintf("%s -- %s", version.Version, version.Commit),
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		if logQuiet && logVerbose {
 			return errors.New("quiet and verbose are mutually exclusive")
@@ -35,7 +38,7 @@ var rootCmd = &cobra.Command{
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 func Execute() {
-	rootCmd.Execute()
+	_ = rootCmd.Execute()
 }
 
 func init() {

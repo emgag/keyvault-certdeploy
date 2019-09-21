@@ -54,13 +54,13 @@ Available Commands:
   prune       Remove expired certificates from vault
   push        Push a certificate to the vault
   sync        Sync configured certificates from vault to system
-  version     Print the version number of keyvault-certdeploy
 
 Flags:
   -c, --config string   Config file (default locations are $HOME/.config/keyvault-certdeploy.yml, /etc/keyvault-certdeploy/keyvault-certdeploy.yml, $PWD/keyvault-certdeploy.yml)
   -h, --help            help for keyvault-certdeploy
   -q, --quiet           Be quiet
   -v, --verbose         Be more verbose
+      --version         version for keyvault-certdeploy
 
 Use "keyvault-certdeploy [command] --help" for more information about a command.
 ```

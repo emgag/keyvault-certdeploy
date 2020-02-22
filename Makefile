@@ -13,7 +13,7 @@ install:
 	CGO_ENABLED=0 GOOS=linux go install -a -v ${PKG}
 
 snapshot:
-	goreleaser --snapshot --rm-dist
+	goreleaser --snapshot --skip-publish --rm-dist
 
 dist:
 	goreleaser --rm-dist

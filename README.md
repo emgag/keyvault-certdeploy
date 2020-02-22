@@ -1,6 +1,6 @@
 # keyvault-certdeploy
 
-[![Build Status](https://travis-ci.org/emgag/keyvault-certdeploy.svg?branch=master)](https://travis-ci.org/emgag/keyvault-certdeploy)
+![build](https://github.com/emgag/keyvault-certdeploy/workflows/build/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/emgag/keyvault-certdeploy)](https://goreportcard.com/report/github.com/emgag/keyvault-certdeploy)
 [![Docker Pulls](https://img.shields.io/docker/pulls/emgag/keyvault-certdeploy.svg)](https://hub.docker.com/r/emgag/keyvault-certdeploy)
 [![Image Layers](https://images.microbadger.com/badges/image/emgag/keyvault-certdeploy.svg)](https://microbadger.com/images/emgag/keyvault-certdeploy "Get your own image badge on microbadger.com")

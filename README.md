@@ -12,7 +12,7 @@
 ## Requirements
 
 * [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault) vault and an account with write permissions to vault secrets (for uploading new certs) and a read-only secret permissions for fetching certs. 
-* Go >=1.13 for building.  
+* Go >=1.13 and [goreleaser](https://goreleaser.com/) for building.  
 
 ## Limitations
 
@@ -180,20 +180,12 @@ Certificates are pushed to the vault as an unencrypted, single PEM-formated file
 ### On Linux
 
 ```
-$ go get -u github.com/emgag/keyvault-certdeploy
+$ git clone github.com/emgag/keyvault-certdeploy
+$ cd keyvault-certdeploy
+$ make snapshot
 ```
 
-will download the source and build binary called _keyvault-certdeploy_ in $GOPATH/bin.
-
-### Using Docker
-
-```
-$ go get -u github.com/goreleaser/goreleaser
-$ $(go env GOPATH)/bin/goreleaser --snapshot --rm-dist
-$ docker build -t keyvault-certdeploy:latest .
-```
-
-will build a Docker image.
+will download the source and build binary called _keyvault-certdeploy_ in ./dist directory and a locally tagged docker image.
 
 ## License
 

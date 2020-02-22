@@ -25,7 +25,7 @@ dockers:
     binaries:
       - keyvault-certdeploy
     image_templates:
-#      - "emgag/keyvault-certdeploy:latest"
+      - "emgag/keyvault-certdeploy:latest"
       - "emgag/keyvault-certdeploy:{{ .Tag }}"
     dockerfile: Dockerfile
     build_flag_templates:

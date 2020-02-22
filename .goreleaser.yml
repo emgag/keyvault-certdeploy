@@ -23,7 +23,7 @@ dockers:
     goos: linux
     goarch: amd64
     binaries:
-      - varnish-towncrier
+      - keyvault-certdeploy
     image_templates:
 #      - "emgag/keyvault-certdeploy:latest"
       - "emgag/keyvault-certdeploy:{{ .Tag }}"

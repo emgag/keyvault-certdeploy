@@ -11,7 +11,8 @@ COPY keyvault-certdeploy /keyvault-certdeploy
 
 # Runtime image
 FROM scratch
-LABEL maintainer="Matthias Blaser <mb@emgag.com>"
+LABEL org.opencontainers.image.source = "https://github.com/emgag/keyvault-certdeploy"
+LABEL org.opencontainers.image.license = "MIT"
 
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=build /keyvault-certdeploy /keyvault-certdeploy

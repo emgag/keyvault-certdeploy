@@ -2,11 +2,10 @@ package cmd
 
 import (
 	"github.com/emgag/keyvault-certdeploy/internal/lib/vault"
-	"github.com/go-playground/log"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"io/ioutil"
 	"os"
 	"path"
 )
@@ -92,15 +91,15 @@ var dumpCmd = &cobra.Command{
 			name := path.Join(out, p)
 
 			if _, err := os.Stat(name); err == nil {
-				log.Noticef("%s already exists, removing", name)
+				log.Infof("%s already exists, removing", name)
 
 				if err := os.Remove(name); err != nil {
 					log.Warnf("Error removing file %s", name)
 				}
 			}
 
-			if err := ioutil.WriteFile(name, f.Data, f.FileMode); err != nil {
-				log.Alertf("Error writing %s: %s", f.Description, err)
+			if err := os.WriteFile(name, f.Data, f.FileMode); err != nil {
+				log.Errorf("Error writing %s: %s", f.Description, err)
 			} else {
 				log.Infof("Wrote %s to %s", f.Description, name)
 			}

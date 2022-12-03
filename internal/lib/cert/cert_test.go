@@ -3,12 +3,12 @@ package cert_test
 import (
 	"bytes"
 	"fmt"
-	"github.com/emgag/keyvault-certdeploy/internal/lib/cert"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
 	"time"
+
+	"github.com/emgag/keyvault-certdeploy/internal/lib/cert"
 )
 
 type certInfo struct {
@@ -61,11 +61,11 @@ func setup() {
 		c.FullChainFile = filepath.Join(testData, fmt.Sprintf("%s.fullchain.%s.pem", c.SubjectCN, c.PublicKeyAlgorithm))
 		c.FullChainKeyFile = filepath.Join(testData, fmt.Sprintf("%s.fullchain.key.%s.pem", c.SubjectCN, c.PublicKeyAlgorithm))
 		c.ChainFile = filepath.Join(testData, "chain.pem")
-		c.KeyData, _ = ioutil.ReadFile(c.KeyFile)
-		c.CertData, _ = ioutil.ReadFile(c.CertFile)
-		c.ChainData, _ = ioutil.ReadFile(c.ChainFile)
-		c.FullChainData, _ = ioutil.ReadFile(c.FullChainFile)
-		c.FullChainKeyData, _ = ioutil.ReadFile(c.FullChainKeyFile)
+		c.KeyData, _ = os.ReadFile(c.KeyFile)
+		c.CertData, _ = os.ReadFile(c.CertFile)
+		c.ChainData, _ = os.ReadFile(c.ChainFile)
+		c.FullChainData, _ = os.ReadFile(c.FullChainFile)
+		c.FullChainKeyData, _ = os.ReadFile(c.FullChainKeyFile)
 	}
 }
 
@@ -111,15 +111,15 @@ func TestCerts(t *testing.T) {
 			t.Errorf("Expire date does not match, got %s expected %s", c.NotAfter(), tc.NotAfter)
 		}
 
-		if bytes.Compare(tc.CertData, c.LeafPEM()) != 0 {
+		if !bytes.Equal(tc.CertData, c.LeafPEM()) {
 			t.Error("LeafCert() does not return correct cert data")
 		}
 
-		if bytes.Compare(tc.ChainData, c.ChainPEM()) != 0 {
+		if !bytes.Equal(tc.ChainData, c.ChainPEM()) {
 			t.Error("ChainPEM() does not return correct cert data")
 		}
 
-		if bytes.Compare(tc.FullChainKeyData, c.FullPEM()) != 0 {
+		if !bytes.Equal(tc.FullChainKeyData, c.FullPEM()) {
 			t.Error("FullPEM() does not return correct cert data")
 		}
 

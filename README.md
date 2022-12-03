@@ -10,7 +10,7 @@
 ## Requirements
 
 * [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault) vault and an account with write permissions to vault secrets (for uploading new certs) and a read-only secret permissions for fetching certs. 
-* Go >=1.13 and [goreleaser](https://goreleaser.com/) for building.  
+* Go >=1.19 and [goreleaser](https://goreleaser.com/) for building.  
 
 ## Limitations
 

@@ -6,9 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/keyvault/2016-10-01/keyvault"
-	"github.com/Azure/azure-sdk-for-go/services/keyvault/auth"
-	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/keyvault/azsecrets"
 	"github.com/emgag/keyvault-certdeploy/internal/lib/cert"
 )
 
@@ -26,7 +25,7 @@ const (
 
 // Client represents a certdeploy client
 type Client struct {
-	VaultClient *keyvault.BaseClient
+	VaultClient *azsecrets.Client
 	VaultURL    string
 }
 
@@ -34,19 +33,17 @@ type Client struct {
 func (c *Client) GetCertificates() ([]*cert.Certificate, error) {
 	var certs []*cert.Certificate
 
-	req, err := c.VaultClient.GetSecrets(context.Background(), c.VaultURL, nil)
+	pager := c.VaultClient.NewListSecretsPager(nil)
 
-	if err != nil {
-		return nil, err
-	}
+	for pager.More() {
+		page, err := pager.NextPage(context.Background())
 
-	for ; req.NotDone(); err = req.Next() {
 		if err != nil {
 			return nil, err
 		}
 
-		for _, item := range req.Values() {
-			c, err := c.PullCertificate(*item.Tags[TagSubjectCN], *item.Tags[TagKeyAlgo])
+		for _, secret := range page.Value {
+			c, err := c.PullCertificate(*secret.Tags[TagSubjectCN], *secret.Tags[TagKeyAlgo])
 
 			if err != nil {
 				return nil, err
@@ -69,22 +66,24 @@ func (c *Client) PushCertificate(cert *cert.Certificate) error {
 		}
 	}
 
-	ssp := keyvault.SecretSetParameters{
+	stringPtr := func(s string) *string { return &s }
+
+	ssp := azsecrets.SetSecretParameters{
 		Tags: map[string]*string{
-			TagFingerprint: to.StringPtr(cert.Fingerprint()),
-			TagKeyAlgo:     to.StringPtr(cert.PublicKeyAlgorithm()),
-			TagNotAfter:    to.StringPtr(fmt.Sprintf("%d", cert.NotAfter().Unix())),
-			TagSubjectCN:   to.StringPtr(cert.SubjectCN()),
+			TagFingerprint: stringPtr(cert.Fingerprint()),
+			TagKeyAlgo:     stringPtr(cert.PublicKeyAlgorithm()),
+			TagNotAfter:    stringPtr(fmt.Sprintf("%d", cert.NotAfter().Unix())),
+			TagSubjectCN:   stringPtr(cert.SubjectCN()),
 		},
-		ContentType: to.StringPtr(mimeTypePEM),
-		Value:       to.StringPtr(cert.String()),
+		ContentType: stringPtr(mimeTypePEM),
+		Value:       stringPtr(cert.String()),
 	}
 
 	_, err = c.VaultClient.SetSecret(
 		context.Background(),
-		c.VaultURL,
 		CertificateIDFromCert(cert),
 		ssp,
+		nil,
 	)
 
 	return err
@@ -94,9 +93,9 @@ func (c *Client) PushCertificate(cert *cert.Certificate) error {
 func (c *Client) PullCertificate(subject string, keyalgo string) (*cert.Certificate, error) {
 	sb, err := c.VaultClient.GetSecret(
 		context.Background(),
-		c.VaultURL,
 		CertificateID(subject, keyalgo),
 		"",
+		nil,
 	)
 
 	if err != nil {
@@ -116,8 +115,8 @@ func (c *Client) PullCertificate(subject string, keyalgo string) (*cert.Certific
 func (c *Client) DeleteCertificate(subject string, keyalgo string) error {
 	_, err := c.VaultClient.DeleteSecret(
 		context.Background(),
-		c.VaultURL,
 		CertificateID(subject, keyalgo),
+		nil,
 	)
 
 	if err != nil {
@@ -129,18 +128,20 @@ func (c *Client) DeleteCertificate(subject string, keyalgo string) error {
 
 // NewClient creates a new vault client
 func NewClient(vaultURL string) (*Client, error) {
-	authorizer, err := auth.NewAuthorizerFromEnvironment()
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+
+	vc, err := azsecrets.NewClient(vaultURL, cred, nil)
 
 	if err != nil {
 		return nil, err
 	}
 
-	vc := keyvault.New()
-	vc.Authorizer = authorizer
-
 	c := &Client{
 		VaultURL:    vaultURL,
-		VaultClient: &vc,
+		VaultClient: vc,
 	}
 
 	return c, nil

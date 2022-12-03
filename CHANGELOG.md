@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.4.0] - 2022-12-03
+
+### Added
+- Builds for macOS.
+- Builds for ARM64.
+- Publish container images to GitHub container registry.
+
+### Changed
+
+- Code cleanup.
+- Upgrade dependencies.
+
 ## [1.3.0] - 2020-02-22
 
 ### Added
@@ -46,7 +58,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 Initial release
 
-[Unreleased]: https://github.com/emgag/keyvault-certdeploy/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/emgag/keyvault-certdeploy/compare/v1.4.0...HEAD
 [1.1.0]: https://github.com/emgag/keyvault-certdeploy/compare/v1.0.0...v1.1.0
 [1.2.0]: https://github.com/emgag/keyvault-certdeploy/compare/v1.1.0...v1.2.0
 [1.3.0]: https://github.com/emgag/keyvault-certdeploy/compare/v1.2.0...v1.3.0
+[1.4.0]: https://github.com/emgag/keyvault-certdeploy/compare/v1.3.0...v1.4.0

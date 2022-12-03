@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"strings"
@@ -9,7 +8,7 @@ import (
 	"github.com/emgag/keyvault-certdeploy/internal/lib/cert"
 	"github.com/emgag/keyvault-certdeploy/internal/lib/config"
 	"github.com/emgag/keyvault-certdeploy/internal/lib/vault"
-	"github.com/go-playground/log"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -67,9 +66,9 @@ var syncCmd = &cobra.Command{
 				f, _ := cmd.Flags().GetBool("force")
 
 				if f {
-					log.Noticef("%s cert %s: already up to date, forcing update", c.KeyAlgo, c.SubjectCN)
+					log.Infof("%s cert %s: already up to date, forcing update", c.KeyAlgo, c.SubjectCN)
 				} else {
-					log.Noticef("%s cert %s: already up to date", c.KeyAlgo, c.SubjectCN)
+					log.Infof("%s cert %s: already up to date", c.KeyAlgo, c.SubjectCN)
 					continue
 				}
 			}
@@ -89,20 +88,20 @@ var syncCmd = &cobra.Command{
 
 			for _, f := range files {
 				if f.Name == "" {
-					log.Noticef("No filename for %s defined, skipping", f.Description)
+					log.Infof("No filename for %s defined, skipping", f.Description)
 					continue
 				}
 
 				if _, err := os.Stat(f.Name); err == nil {
-					log.Noticef("%s already exists, removing", f.Name)
+					log.Infof("%s already exists, removing", f.Name)
 
 					if err := os.Remove(f.Name); err != nil {
 						log.Warnf("Error removing file %s", f.Name)
 					}
 				}
 
-				if err := ioutil.WriteFile(f.Name, f.Data, f.FileMode); err != nil {
-					log.Alertf("Error writing %s: %s", f.Description, err)
+				if err := os.WriteFile(f.Name, f.Data, f.FileMode); err != nil {
+					log.Errorf("Error writing %s: %s", f.Description, err)
 				} else {
 					log.Infof("Wrote %s to %s", f.Description, f.Name)
 				}
@@ -115,7 +114,7 @@ var syncCmd = &cobra.Command{
 
 		if skip, _ := cmd.Flags().GetBool("nohooks"); !skip {
 			for h := range hooks {
-				log.Noticef("Run hook %s", h)
+				log.Infof("Run hook %s", h)
 				c := strings.Split(h, " ")
 				command := exec.Command(c[0], c[1:]...)
 
@@ -124,7 +123,7 @@ var syncCmd = &cobra.Command{
 				}
 			}
 		} else {
-			log.Notice("Skipping update hooks")
+			log.Info("Skipping update hooks")
 		}
 	},
 }

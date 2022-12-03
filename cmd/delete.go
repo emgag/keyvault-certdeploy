@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/emgag/keyvault-certdeploy/internal/lib/vault"
-	"github.com/go-playground/log"
 	"github.com/manifoldco/promptui"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -56,7 +56,7 @@ var deleteCmd = &cobra.Command{
 			_, err = prompt.Run()
 
 			if err != nil {
-				log.Notice("Not removing certificate")
+				log.Info("Not removing certificate")
 				return
 			}
 		}

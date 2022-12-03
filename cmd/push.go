@@ -3,7 +3,7 @@ package cmd
 import (
 	"github.com/emgag/keyvault-certdeploy/internal/lib/cert"
 	"github.com/emgag/keyvault-certdeploy/internal/lib/vault"
-	"github.com/go-playground/log"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -37,7 +37,7 @@ var pushCmd = &cobra.Command{
 		if err != nil {
 			log.Errorf("Error pushing cert: %s", err)
 		} else {
-			log.Noticef(
+			log.Infof(
 				"Successfully pushed %s certificate %s (%v, %s) to the vault",
 				c.PublicKeyAlgorithm(),
 				c.SubjectCN(),

@@ -8,9 +8,11 @@ builds:
     ldflags:
       - -s -w -X github.com/emgag/keyvault-certdeploy/internal/lib/version.Version={{.Version}} -X github.com/emgag/keyvault-certdeploy/internal/lib/version.Commit={{.Commit}} -X github.com/emgag/keyvault-certdeploy/internal/lib/version.Date={{.Date}}
     goos:
+      - darwin
       - linux
     goarch:
       - amd64
+      - arm64
 archives:
   - files:
       - LICENSE
@@ -19,14 +21,34 @@ archives:
 checksum:
   name_template: 'checksums.txt'
 dockers:
-  -
+  - dockerfile: Dockerfile
+    use: buildx
+    build_flag_templates:
+      - "--platform=linux/amd64"
+      - "--pull"
+    image_templates:
+      - "emgag/keyvault-certdeploy:{{ .Tag }}-amd64"
     goos: linux
     goarch: amd64
-    binaries:
+    ids:
       - keyvault-certdeploy
-    image_templates:
-      - "emgag/keyvault-certdeploy:latest"
-      - "emgag/keyvault-certdeploy:{{ .Tag }}"
-    dockerfile: Dockerfile
+  - dockerfile: Dockerfile
+    use: buildx
     build_flag_templates:
+      - "--platform=linux/arm64"
       - "--pull"
+    image_templates:
+      - "emgag/keyvault-certdeploy:{{ .Tag }}-arm64"
+    goos: linux
+    goarch: arm64
+    ids:
+      - keyvault-certdeploy
+docker_manifests:
+  - name_template: emgag/keyvault-certdeploy:{{ .Tag }}
+    image_templates:
+      - "emgag/keyvault-certdeploy:{{ .Tag }}-amd64"
+      - "emgag/keyvault-certdeploy:{{ .Tag }}-arm64"
+  - name_template: emgag/keyvault-certdeploy:latest
+    image_templates:
+      - "emgag/keyvault-certdeploy:{{ .Tag }}-amd64"
+      - "emgag/keyvault-certdeploy:{{ .Tag }}-arm64"

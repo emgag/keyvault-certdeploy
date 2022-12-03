@@ -8,7 +8,7 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 	"time"
 )
@@ -78,13 +78,13 @@ func (c *Certificate) String() string {
 
 // LoadFromDisk returns a certificate loaded from a key- and certificate chain file
 func LoadFromDisk(keyFile string, certFile string) (*Certificate, error) {
-	key, err := ioutil.ReadFile(keyFile)
+	key, err := os.ReadFile(keyFile)
 
 	if err != nil {
 		return nil, err
 	}
 
-	cert, err := ioutil.ReadFile(certFile)
+	cert, err := os.ReadFile(certFile)
 
 	if err != nil {
 		return nil, err

@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/emgag/keyvault-certdeploy/internal/lib/vault"
-	"github.com/go-playground/log"
 	"github.com/manifoldco/promptui"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -47,7 +47,7 @@ var pruneCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		log.Notice("Fetching certificate list")
+		log.Info("Fetching certificate list")
 
 		certs, err := client.GetCertificates()
 
@@ -65,7 +65,7 @@ var pruneCmd = &cobra.Command{
 		i := 0
 
 		for _, c := range certs {
-			diff := time.Now().Sub(c.NotAfter())
+			diff := time.Since(c.NotAfter())
 
 			if (diff.Hours()/float64(24) - float64(days)) > 0 {
 				certs[i] = c
@@ -102,7 +102,7 @@ var pruneCmd = &cobra.Command{
 				_, err = prompt.Run()
 
 				if err != nil {
-					log.Notice("Not removing any certificates")
+					log.Info("Not removing any certificates")
 					return
 				}
 			}

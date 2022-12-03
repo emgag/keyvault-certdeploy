@@ -1,14 +1,13 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"path"
 
 	"github.com/emgag/keyvault-certdeploy/internal/lib/version"
-	"github.com/go-playground/errors"
-	"github.com/go-playground/log"
-	"github.com/go-playground/log/handlers/console"
 	"github.com/mitchellh/go-homedir"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -71,18 +70,15 @@ func init() {
 
 // initLogger sets loglevels based on flags
 func initLogger() {
-	con := console.New(true)
-	var levels []log.Level
+	level := log.WarnLevel
 
 	if logVerbose {
-		levels = log.AllLevels
+		level = log.InfoLevel
 	} else if logQuiet {
-		levels = []log.Level{log.FatalLevel, log.AlertLevel, log.PanicLevel}
-	} else {
-		levels = []log.Level{log.FatalLevel, log.AlertLevel, log.PanicLevel, log.ErrorLevel, log.WarnLevel}
+		level = log.ErrorLevel
 	}
 
-	log.AddHandler(con, levels...)
+	log.SetLevel(level)
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -105,6 +101,6 @@ func initConfig() {
 	err := viper.ReadInConfig()
 
 	if err != nil {
-		log.Alertf("Could not open config file: %s", err)
+		log.Errorf("Could not open config file: %s", err)
 	}
 }

@@ -2,12 +2,12 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/emgag/keyvault-certdeploy/internal/lib/vault"
-	"github.com/go-playground/log"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-
-	"strings"
 )
 
 func init() {
@@ -25,7 +25,7 @@ var listCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		log.Notice("Fetching certificate list")
+		log.Info("Fetching certificate list")
 
 		certs, err := client.GetCertificates()
 

@@ -28,6 +28,7 @@ dockers:
       - "--pull"
     image_templates:
       - "emgag/keyvault-certdeploy:{{ .Tag }}-amd64"
+      - "ghcr.io/emgag/keyvault-certdeploy:{{ .Tag }}-amd64"
     goos: linux
     goarch: amd64
     ids:
@@ -39,6 +40,7 @@ dockers:
       - "--pull"
     image_templates:
       - "emgag/keyvault-certdeploy:{{ .Tag }}-arm64"
+      - "ghcr.io/emgag/keyvault-certdeploy:{{ .Tag }}-arm64"
     goos: linux
     goarch: arm64
     ids:
@@ -52,3 +54,11 @@ docker_manifests:
     image_templates:
       - "emgag/keyvault-certdeploy:{{ .Tag }}-amd64"
       - "emgag/keyvault-certdeploy:{{ .Tag }}-arm64"
+  - name_template: ghcr.io/emgag/keyvault-certdeploy:{{ .Tag }}
+    image_templates:
+      - "ghcr.io/emgag/keyvault-certdeploy:{{ .Tag }}-amd64"
+      - "ghcr.io/emgag/keyvault-certdeploy:{{ .Tag }}-arm64"
+  - name_template: ghcr.io/emgag/keyvault-certdeploy:latest
+    image_templates:
+      - "ghcr.io/emgag/keyvault-certdeploy:{{ .Tag }}-amd64"
+      - "ghcr.io/emgag/keyvault-certdeploy:{{ .Tag }}-arm64"

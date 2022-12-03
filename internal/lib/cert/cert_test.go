@@ -34,13 +34,13 @@ var testCerts = []*certInfo{
 	{
 		SubjectCN:          "c1.example.org",
 		PublicKeyAlgorithm: "rsa",
-		NotAfter:           time.Date(2023, 6, 13, 15, 48, 0, 0, time.UTC),
-		Fingerprint:        "d8a713b1b7f1da027c59cc636a017d94df4f0e70176975d5704e34d18c4f2803",
+		NotAfter:           time.Date(2027, 12, 03, 17, 19, 0, 0, time.UTC),
+		Fingerprint:        "e6473ebc403e4a6f664dcbb98eb6886dd92232382ac641b06a731e737c586392",
 	}, {
 		SubjectCN:          "c1.example.org",
 		PublicKeyAlgorithm: "ecdsa",
-		NotAfter:           time.Date(2023, 6, 13, 15, 48, 0, 0, time.UTC),
-		Fingerprint:        "bf182f09bda97ae3b91c2d26c37220138891a3130489b26326d763e74f0aef81",
+		NotAfter:           time.Date(2027, 12, 03, 17, 18, 0, 0, time.UTC),
+		Fingerprint:        "ee27bb29e9563efd2830902b091e084fc55f797334cc04ede14d6daec7fae005",
 	}, {
 		SubjectCN:          "c2.example.org",
 		PublicKeyAlgorithm: "rsa",

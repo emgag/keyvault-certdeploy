@@ -5,26 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="978719fb-61ff-4143-a69b-59f80e8dd3bf" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.goreleaser.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.goreleaser.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/delete.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/delete.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/dump.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/dump.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/list.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/list.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/prune.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/prune.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/push.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/push.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/root.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/root.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/sync.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/sync.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/lib/cert/cert.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/lib/cert/cert.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/lib/cert/cert_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/lib/cert/cert_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/lib/vault/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/lib/vault/client.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
